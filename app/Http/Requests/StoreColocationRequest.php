@@ -11,7 +11,7 @@ class StoreColocationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user() && auth()->user()->colocation_id === null;
     }
 
     /**

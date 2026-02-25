@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreColocationRequest;
 use App\Http\Requests\UpdateColocationRequest;
 use App\Models\Colocation;
+use Illuminate\Support\Str;
 
 class ColocationController extends Controller
 {
@@ -19,7 +20,7 @@ class ColocationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         //
     }
@@ -29,15 +30,36 @@ class ColocationController extends Controller
      */
     public function store(StoreColocationRequest $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:100'
+        ]);
+        
+        $colocation = Colocation::create([
+            'name' => $request->name,
+            'email' => auth()->user()->email,
+            'invite_token' => Str::random(20),
+        ]);
+
+        $user = auth()->user();
+        $user->colocation_id = $colocation->id;
+        $user->save();
+
+
+        return redirect()->route('dashboard')->with('success' , 'Colocation created succussfully!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Colocation $colocation)
+    public function show()
     {
-        //
+        $colocation = auth()->user()->colocation;
+
+        if (!$colocation) {
+            return redirect()->route('dashboard');
+        }
+
+        return view('colocation', compact('colocation'));
     }
 
     /**

@@ -46,7 +46,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function colocations()
+    public function colocation()
     {
         return $this->belongsTo(Colocation::class);
     }

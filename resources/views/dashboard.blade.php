@@ -1,15 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex flex-col h-full bg-[#f0f2f5]">
+<div x-data="{ isModalOpen: false }" class="flex flex-col h-full bg-[#f0f2f5]">
     <!-- Top Header -->
     <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-10 shrink-0">
         <div class="flex items-center space-x-8">
             <h1 class="text-xl font-black italic uppercase tracking-tighter text-slate-800">TABLEAU DE BORD</h1>
-            <button class="bg-gradient-to-r from-[#5649e7] to-[#7165f1] hover:shadow-lg hover:shadow-[#5649e7]/30 text-white px-6 py-2.5 rounded-2xl font-bold flex items-center space-x-2 transition-all transform active:scale-95">
-                <span class="text-xl">+</span>
-                <span>Nouvelle colocation</span>
-            </button>
+            @if(!auth()->user()->colocation_id)
+                <button @click="isModalOpen = true" class="bg-gradient-to-r from-[#5649e7] to-[#7165f1] hover:shadow-lg hover:shadow-[#5649e7]/30 text-white px-6 py-2.5 rounded-2xl font-bold flex items-center space-x-2 transition-all transform active:scale-95">
+                    <span class="text-xl">+</span>
+                    <span>Nouvelle colocation</span>
+                </button>
+            @endif
         </div>
 
         <!-- User Info -->
@@ -96,5 +98,8 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal Component -->
+    @include('components.newColocModal')
 </div>
 @endsection

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->integer('reputation')->default(0);
+            $table->unsignedBigInteger('colocation_id')->nullable();
             $table->boolean('is_global_admin')->default(false);
             $table->timestamp('banned_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();

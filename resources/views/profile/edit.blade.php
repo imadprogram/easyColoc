@@ -32,7 +32,7 @@
                         @include('profile.partials.update-password-form')
                     </div>
                 </div>
-
+    
                 <!-- Delete User -->
                 <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border-2 border-rose-50/50">
                     <div class="max-w-xl">

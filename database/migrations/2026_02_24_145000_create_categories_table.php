@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('colocations', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('colocation_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->string('email');
-            $table->string('invite_token')->unique();
-            $table->enum('status' , ['active' , 'cancelled'])->default('active');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('colocations');
+        Schema::dropIfExists('categories');
     }
 };

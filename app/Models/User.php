@@ -45,4 +45,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function colocations()
+    {
+        return $this->belongsTo(Colocation::class);
+    }
 }

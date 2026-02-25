@@ -6,6 +6,7 @@ use App\Http\Requests\StoreColocationRequest;
 use App\Http\Requests\UpdateColocationRequest;
 use App\Models\Colocation;
 use Illuminate\Support\Str;
+use App\Models\Category;
 
 class ColocationController extends Controller
 {
@@ -36,7 +37,7 @@ class ColocationController extends Controller
         
         $colocation = Colocation::create([
             'name' => $request->name,
-            'email' => auth()->user()->email,
+            'owner_id' => auth()->user()->id,
             'invite_token' => Str::random(20),
         ]);
 
@@ -59,7 +60,9 @@ class ColocationController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return view('colocation', compact('colocation'));
+        $categories = Category::where('colocation_id' , $colocation->id)->get();
+
+        return view('colocation', compact('colocation','categories'));
     }
 
     /**

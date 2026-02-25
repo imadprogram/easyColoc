@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex flex-col h-full bg-[#f0f2f5]">
+<div x-data="{ isExpenseModalOpen: false, isCategoryModalOpen: false }" class="flex flex-col h-full bg-[#f0f2f5]">
     <!-- Header -->
     <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-10 shrink-0">
         <div class="flex items-center space-x-6">
@@ -25,11 +25,15 @@
     <!-- Main Content -->
     <section class="flex-1 p-10 overflow-y-auto w-full max-w-7xl mx-auto space-y-8">
         
-        <!-- Tab Navigation (Mockup) -->
-        <div class="flex space-x-1 bg-gray-200/50 p-1 rounded-2xl w-fit">
-            <button class="px-6 py-2.5 bg-white text-indigo-600 rounded-xl font-bold shadow-sm text-sm">Vue d'ensemble</button>
-            <button class="px-6 py-2.5 text-slate-500 hover:text-slate-800 font-bold rounded-xl text-sm transition-colors">Catégories</button>
-            <button class="px-6 py-2.5 text-slate-500 hover:text-slate-800 font-bold rounded-xl text-sm transition-colors">Règlements</button>
+        <!-- Action Row -->
+        <div class="flex justify-end">
+            <!-- Show only if owner -->
+            {{-- @if(auth()->id() === $colocation->owner_id) --}}
+            <button @click="isCategoryModalOpen = true" class="bg-gray-800 hover:bg-black text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-colors shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                Ajouter une catégorie
+            </button>
+            {{-- @endif --}}
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -100,7 +104,7 @@
                  <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 h-full">
                     <div class="flex justify-between items-center mb-8">
                         <h2 class="text-xl font-bold text-slate-800">Dépenses de la colocation</h2>
-                        <button class="bg-[#5649e7] hover:bg-[#4338ca] text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-colors shadow-md shadow-[#5649e7]/20">
+                        <button @click="isExpenseModalOpen = true" class="bg-[#5649e7] hover:bg-[#4338ca] text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-colors shadow-md shadow-[#5649e7]/20">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                             Ajouter
                         </button>
@@ -179,5 +183,9 @@
             </div>
         </div>
     </section>
+
+    <!-- Modals -->
+    @include('components.expenseModal')
+    @include('components.categoryModal')
 </div>
 @endsection

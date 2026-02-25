@@ -3,6 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ColocationController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExpenseController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,6 +17,9 @@ Route::get('/dashboard', function () {
 
 Route::post('/newColoc' , [ColocationController::class , 'store'])->name('newColoc');
 Route::get('/colocation' ,[ColocationController::class , 'show'])->name('colocation');
+
+Route::post('/expense' , [ExpenseController::class , 'store'])->name('expense.store');
+Route::post('/category' , [CategoryController::class , 'store'])->name('category.store');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

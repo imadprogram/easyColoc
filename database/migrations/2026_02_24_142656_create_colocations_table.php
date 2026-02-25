@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('colocations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email');
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
             $table->string('invite_token')->unique();
             $table->enum('status' , ['active' , 'cancelled'])->default('active');
             $table->timestamps();

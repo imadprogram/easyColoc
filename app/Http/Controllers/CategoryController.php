@@ -29,7 +29,12 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        Category::create([
+            'name' => $request->name,
+            'colocation_id' => auth()->user()->colocation_id
+        ]);
+
+        return back()->with('success' , 'categorie ajoutee !');
     }
 
     /**

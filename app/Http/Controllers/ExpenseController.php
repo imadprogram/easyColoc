@@ -29,14 +29,21 @@ class ExpenseController extends Controller
      */
     public function store(StoreExpenseRequest $request)
     {
-        //
+        Expense::create([
+            'amount' => $request->amount,
+            'category_id' => $request->category_id,
+            'user_id' => auth()->id(),
+            'colocation_id' => auth()->user()->colocation_id,
+        ]);
+
+        return back()->with('success', 'Expense added successfully!');
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Expense $expense)
-    {
+    {  
         //
     }
 

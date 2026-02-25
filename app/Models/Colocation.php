@@ -10,7 +10,7 @@ class Colocation extends Model
     /** @use HasFactory<\Database\Factories\ColocationFactory> */
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'invite_token', 'status'];
+    protected $fillable = ['name', 'owner_id', 'invite_token', 'status'];
 
     public function users()
     {

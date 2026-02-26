@@ -21,6 +21,8 @@ Route::get('/colocation' ,[ColocationController::class , 'show'])->name('colocat
 Route::post('/expense' , [ExpenseController::class , 'store'])->name('expense.store');
 Route::post('/category' , [CategoryController::class , 'store'])->name('category.store');
 
+Route::get('/colocation/invite/{token}' , [ColocationController::class , 'accept'])->name('invite');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

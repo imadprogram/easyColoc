@@ -65,6 +65,33 @@ class ColocationController extends Controller
         return view('colocation', compact('colocation'));
     }
 
+
+    
+    public function accept($token)
+    {
+        $colocation = Colocation::where('invite_token', $token)->first();
+
+        if (!$colocation) {
+            return redirect()->route('dashboard')->with('error', 'Lien d\'invitation invalide.');
+        }
+
+        if (auth()->check()) {
+            $user = auth()->user();
+            
+            if ($user->colocation_id) {
+                return redirect()->route('dashboard')->with('error', 'Vous êtes déjà dans une colocation !');
+            }
+
+            $user->colocation_id = $colocation->id;
+            $user->save();
+
+            return redirect()->route('dashboard')->with('success', 'Vous avez rejoint la colocation avec succès !');
+        }
+
+        session(['url.intended' => url()->current()]);
+        return redirect()->route('register')->with('info', 'Veuillez créer un compte pour rejoindre la colocation.');
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

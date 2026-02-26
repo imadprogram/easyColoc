@@ -64,11 +64,10 @@ class ColocationController extends Controller
 
         $categories = Category::where('colocation_id' , $colocation->id)->get();
         $expenses = Expense::where('colocation_id' , $colocation->id)->get();
-        $total = $expenses->sum('amount');
 
         $members = User::where('colocation_id' , $colocation->id)->get();
 
-        return view('colocation', compact('colocation','categories', 'expenses', 'total', 'members'));
+        return view('colocation', compact('colocation','categories', 'expenses', 'members'));
     }
 
     /**

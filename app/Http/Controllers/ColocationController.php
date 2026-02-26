@@ -63,9 +63,9 @@ class ColocationController extends Controller
 
         $categories = Category::where('colocation_id' , $colocation->id)->get();
         $expenses = Expense::where('colocation_id' , $colocation->id)->get();
-        // $total = Expense::sum('amount');
+        $total = $expenses->sum('amount');
 
-        return view('colocation', compact('colocation','categories', 'expenses'));
+        return view('colocation', compact('colocation','categories', 'expenses', 'total'));
     }
 
     /**

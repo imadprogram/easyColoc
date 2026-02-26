@@ -91,7 +91,7 @@
                     <svg class="w-8 h-8 text-indigo-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                     
                     <p class="text-slate-400 text-sm font-medium mb-1 uppercase tracking-wider">Total du mois</p>
-                    <h3 class="text-4xl font-black mb-6"> 0 €</h3>
+                    <h3 class="text-4xl font-black mb-6"> {{ $total }} €</h3>
                     
                     <button class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-indigo-500/30">
                         Équilibrer les comptes

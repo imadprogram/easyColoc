@@ -56,7 +56,7 @@
                                 <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-md">{{ $member->name[0] }}</div>
                                 <div>
                                     <p class="text-sm font-bold text-slate-800">{{ $member->name}}</p>
-                                    <p class="text-xs text-slate-400">{{ $colocation->owner ? 'owner' : 'member'}}</p>
+                                    <p class="text-xs text-slate-400">{{ $colocation->owner->id === $member->id ? 'owner' : 'member'}}</p>
                                 </div>
                             </div>
                             <span class="text-emerald-500 font-bold text-sm">+150 €</span>

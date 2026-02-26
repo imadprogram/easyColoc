@@ -40,7 +40,7 @@ class ColocationController extends Controller
         $colocation = Colocation::create([
             'name' => $request->name,
             'owner_id' => auth()->user()->id,
-            'invite_token' => Str::random(20),
+            'invite_token' => Str::random(10),
         ]);
 
         $user = auth()->user();

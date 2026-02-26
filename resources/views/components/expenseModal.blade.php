@@ -53,7 +53,7 @@
                     {{-- @endforeach --}}
                     
                     {{-- Dummy Data for now so the UI looks complete --}}
-                    @foreach ($categories as $category)
+                    @foreach ($colocation->categories as $category)
                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>

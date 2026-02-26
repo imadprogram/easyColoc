@@ -62,12 +62,7 @@ class ColocationController extends Controller
             return redirect()->route('dashboard');
         }
 
-        $categories = Category::where('colocation_id' , $colocation->id)->get();
-        $expenses = Expense::where('colocation_id' , $colocation->id)->get();
-
-        $members = User::where('colocation_id' , $colocation->id)->get();
-
-        return view('colocation', compact('colocation','categories', 'expenses', 'members'));
+        return view('colocation', compact('colocation'));
     }
 
     /**

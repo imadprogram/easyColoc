@@ -45,12 +45,12 @@
                 <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 relative overflow-hidden">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-xl font-bold text-slate-800">Les Colocs</h2>
-                        <span class="bg-indigo-50 text-indigo-600 font-bold px-3 py-1 rounded-full text-xs">{{ $members->count() }} membres</span>
+                        <span class="bg-indigo-50 text-indigo-600 font-bold px-3 py-1 rounded-full text-xs">{{ $colocation->users->count() }} membres</span>
                     </div>
 
                     <ul class="space-y-4">
                         <!-- User 1 -->
-                        @foreach($members as $member)
+                        @foreach($colocation->users as $member)
                         <li class="flex justify-between items-center p-3 hover:bg-gray-50 rounded-2xl transition-colors">
                             <div class="flex items-center space-x-3">
                                 <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-md">EM</div>
@@ -71,7 +71,7 @@
                     <svg class="w-8 h-8 text-indigo-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                     
                     <p class="text-slate-400 text-sm font-medium mb-1 uppercase tracking-wider">Total du mois</p>
-                    <h3 class="text-4xl font-black mb-6"> {{ $expenses->sum('amount') }} €</h3>
+                    <h3 class="text-4xl font-black mb-6"> {{ $colocation->expenses->sum('amount') }} €</h3>
                     
                     <button class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-indigo-500/30">
                         Équilibrer les comptes
@@ -92,7 +92,7 @@
 
                     <div class="space-y-4">
                         <!-- Expense Item -->
-                        @forelse($expenses as $expense)
+                        @forelse($colocation->expenses as $expense)
                         <div class="group flex items-center justify-between p-5 border border-gray-50 hover:border-indigo-100 hover:bg-slate-50/50 rounded-2xl transition-all">
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center">

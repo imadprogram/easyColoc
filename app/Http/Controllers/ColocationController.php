@@ -48,7 +48,7 @@ class ColocationController extends Controller
         $user->save();
 
 
-        return redirect()->route('dashboard')->with('success' , 'Colocation created succussfully!');
+        return redirect()->route('colocation')->with('success' , 'Colocation created succussfully!');
     }
 
     /**
@@ -59,12 +59,12 @@ class ColocationController extends Controller
         $colocation = auth()->user()->colocation;
 
         if (!$colocation) {
-            return redirect()->route('dashboard');
+            // Show a simple page with the "New Colocation" button instead of full dashboard
+            return view('no_colocation');
         }
 
         return view('colocation', compact('colocation'));
     }
-
 
     
     public function accept($token)
@@ -72,20 +72,20 @@ class ColocationController extends Controller
         $colocation = Colocation::where('invite_token', $token)->first();
 
         if (!$colocation) {
-            return redirect()->route('dashboard')->with('error', 'Lien d\'invitation invalide.');
+            return redirect()->route('colocation')->with('error', 'Lien d\'invitation invalide.');
         }
 
         if (auth()->check()) {
             $user = auth()->user();
             
             if ($user->colocation_id) {
-                return redirect()->route('dashboard')->with('error', 'Vous êtes déjà dans une colocation !');
+                return redirect()->route('colocation')->with('error', 'Vous êtes déjà dans une colocation !');
             }
 
             $user->colocation_id = $colocation->id;
             $user->save();
 
-            return redirect()->route('dashboard')->with('success', 'Vous avez rejoint la colocation avec succès !');
+            return redirect()->route('colocation')->with('success', 'Vous avez rejoint la colocation avec succès !');
         }
 
         session(['url.intended' => url()->current()]);

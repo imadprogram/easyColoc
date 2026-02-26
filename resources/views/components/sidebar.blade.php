@@ -10,15 +10,17 @@
 
     <!-- Navigation Menu -->
     <nav class="flex-1 space-y-2">
+        @if(auth()->user()->is_admin)
         <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 px-4 py-3 {{ request()->routeIs('dashboard') ? 'bg-[#f0f1ff] text-[#5649e7]' : 'text-slate-400' }} rounded-2xl font-bold transition-all">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
             <span>Dashboard</span>
         </a>
-        <a href=" {{ route('colocation') }}" class="flex items-center space-x-3 px-4 py-3 text-slate-400 hover:text-slate-600 font-bold transition-all group">
+        @endif
+        <a href="{{ route('colocation') }}" class="flex items-center space-x-3 px-4 py-3 {{ request()->routeIs('colocation') ? 'bg-[#f0f1ff] text-[#5649e7]' : 'text-slate-400 hover:text-slate-600' }} rounded-2xl font-bold transition-all group">
             <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             <span>Colocations</span>
         </a>
-        <a href="{{ route('profile.edit') }}" class="flex items-center space-x-3 px-4 py-3 {{ request()->routeIs('profile.edit') ? 'bg-[#f0f1ff] text-[#5649e7]' : 'text-slate-400 hover:text-slate-600' }} font-bold transition-all group">
+        <a href="{{ route('profile.edit') }}" class="flex items-center space-x-3 px-4 py-3 {{ request()->routeIs('profile.edit') ? 'bg-[#f0f1ff] text-[#5649e7]' : 'text-slate-400 hover:text-slate-600' }} rounded-2xl font-bold transition-all group">
             <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
             <span>Profile</span>
         </a>

@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateColocationRequest;
 use App\Models\Colocation;
 use Illuminate\Support\Str;
 use App\Models\Category;
+use App\Models\Expense;
 
 class ColocationController extends Controller
 {
@@ -61,8 +62,10 @@ class ColocationController extends Controller
         }
 
         $categories = Category::where('colocation_id' , $colocation->id)->get();
+        $expenses = Expense::where('colocation_id' , $colocation->id)->get();
+        // $total = Expense::sum('amount');
 
-        return view('colocation', compact('colocation','categories'));
+        return view('colocation', compact('colocation','categories', 'expenses'));
     }
 
     /**

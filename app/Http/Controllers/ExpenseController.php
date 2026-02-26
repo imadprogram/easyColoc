@@ -44,7 +44,9 @@ class ExpenseController extends Controller
      */
     public function show(Expense $expense)
     {  
-        //
+        $expenses = Expense::where('colocation_id' , $colocation->id)->get();
+
+        return view('colocation' , compact('expenses'));
     }
 
     /**

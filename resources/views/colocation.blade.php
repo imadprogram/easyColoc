@@ -91,7 +91,7 @@
                     <svg class="w-8 h-8 text-indigo-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                     
                     <p class="text-slate-400 text-sm font-medium mb-1 uppercase tracking-wider">Total du mois</p>
-                    <h3 class="text-4xl font-black mb-6">450,00 €</h3>
+                    <h3 class="text-4xl font-black mb-6"> 0 €</h3>
                     
                     <button class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-indigo-500/30">
                         Équilibrer les comptes
@@ -112,6 +112,7 @@
 
                     <div class="space-y-4">
                         <!-- Expense Item -->
+                        @forelse($expenses as $expense)
                         <div class="group flex items-center justify-between p-5 border border-gray-50 hover:border-indigo-100 hover:bg-slate-50/50 rounded-2xl transition-all">
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center">
@@ -122,58 +123,19 @@
                                     <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
                                         <span>Aujourd'hui</span>
                                         <span class="w-1 h-1 rounded-full bg-gray-300"></span>
-                                        <span>Payé par <span class="font-bold text-indigo-600">Emad</span></span>
+                                        <span>Payé par <span class="font-bold text-indigo-600"> {{ $expense->user->name}} </span></span>
                                     </div>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <p class="font-black text-slate-800 text-lg">120.00 €</p>
+                                <p class="font-black text-slate-800 text-lg">{{ $expense->amount }} €</p>
                                 <p class="text-xs text-slate-400 font-medium line-through group-hover:block">Nourriture</p>
                             </div>
                         </div>
+                        @empty
+                        <h1>there is nothing!</h1>
+                        @endforelse
 
-                         <!-- Expense Item -->
-                        <div class="group flex items-center justify-between p-5 border border-gray-50 hover:border-indigo-100 hover:bg-slate-50/50 rounded-2xl transition-all">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-slate-800 text-base">Facture Électricité</p>
-                                    <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
-                                        <span>12 Feb</span>
-                                        <span class="w-1 h-1 rounded-full bg-gray-300"></span>
-                                        <span>Payé par <span class="font-bold text-indigo-600">Sophie</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-black text-slate-800 text-lg">85.50 €</p>
-                                <p class="text-xs text-slate-400 font-medium group-hover:block">Factures</p>
-                            </div>
-                        </div>
-
-                         <!-- Expense Item -->
-                        <div class="group flex items-center justify-between p-5 border border-gray-50 hover:border-indigo-100 hover:bg-slate-50/50 rounded-2xl transition-all">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
-                                </div>
-                                <div>
-                                    <p class="font-bold text-slate-800 text-base">Internet Box</p>
-                                    <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
-                                        <span>1 Feb</span>
-                                        <span class="w-1 h-1 rounded-full bg-gray-300"></span>
-                                        <span>Payé par <span class="font-bold text-indigo-600">Alex</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-black text-slate-800 text-lg">34.99 €</p>
-                                <p class="text-xs text-slate-400 font-medium group-hover:block">Abonnements</p>
-                            </div>
-                        </div>
-                    </div>
                     
                     <!-- View all link -->
                     <div class="mt-6 text-center">

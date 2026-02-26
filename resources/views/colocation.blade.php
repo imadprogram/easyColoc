@@ -14,11 +14,25 @@
             <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full uppercase tracking-wider">Actif</span>
         </div>
 
-        <div class="flex items-center space-x-4">
-            <button class="flex items-center space-x-2 text-slate-500 hover:text-slate-800 transition-colors font-bold text-sm bg-white border-2 border-slate-200 hover:border-slate-300 px-4 py-2 rounded-xl">
+        <div class="flex items-center space-x-4 relative" x-data="{ showToast: false }">
+            <button @click="navigator.clipboard.writeText('{{ url()->current() . '/invite/' . $colocation->invite_token }}'); showToast = true; setTimeout(() => showToast = false, 3000)" class="flex items-center space-x-2 text-slate-500 hover:text-slate-800 transition-colors font-bold text-sm bg-white border-2 border-slate-200 hover:border-slate-300 px-4 py-2 rounded-xl">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
-                <span>Inviter (Code: X78Y9Z)</span>
+                <span x-clipboard.raw="{{url()->current() . '/invite/' . $colocation->invite_token }}">Copy invite Link</span>
             </button>
+
+            <!-- Toast Notification -->
+            <div x-show="showToast" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-2"
+                 style="display: none;"
+                 class="absolute top-14 right-0 bg-gray-800 text-white px-4 py-3 rounded-2xl shadow-xl font-bold text-sm flex items-center gap-2 whitespace-nowrap z-50">
+                <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                Lien copié dans le presse-papiers !
+            </div>
         </div>
     </header>
 
@@ -42,7 +56,7 @@
             <div class="lg:col-span-1 space-y-8">
                 
                 <!-- Members Card -->
-                <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 relative overflow-hidden">
+                <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 relative overflow-scroll [scrollbar-width:none] max-h-80">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-xl font-bold text-slate-800">Les Colocs</h2>
                         <span class="bg-indigo-50 text-indigo-600 font-bold px-3 py-1 rounded-full text-xs">{{ $colocation->users->count() }} membres</span>
@@ -80,8 +94,8 @@
             </div>
 
             <!-- Right Column: Recent Expenses -->
-            <div class="lg:col-span-2 space-y-6">
-                 <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 h-full">
+            <div class="lg:col-span-2 space-y-6 max-h-[38rem]">
+                 <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 h-full overflow-scroll [scrollbar-width:none]">
                     <div class="flex justify-between items-center mb-8">
                         <h2 class="text-xl font-bold text-slate-800">Dépenses de la colocation</h2>
                         <button @click="isExpenseModalOpen = true" class="bg-[#5649e7] hover:bg-[#4338ca] text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-colors shadow-md shadow-[#5649e7]/20">

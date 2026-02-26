@@ -8,6 +8,7 @@ use App\Models\Colocation;
 use Illuminate\Support\Str;
 use App\Models\Category;
 use App\Models\Expense;
+use App\Models\User;
 
 class ColocationController extends Controller
 {
@@ -65,7 +66,9 @@ class ColocationController extends Controller
         $expenses = Expense::where('colocation_id' , $colocation->id)->get();
         $total = $expenses->sum('amount');
 
-        return view('colocation', compact('colocation','categories', 'expenses', 'total'));
+        $members = User::where('colocation_id' , $colocation->id)->get();
+
+        return view('colocation', compact('colocation','categories', 'expenses', 'total', 'members'));
     }
 
     /**

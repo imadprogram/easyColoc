@@ -50,6 +50,7 @@
 
                     <ul class="space-y-4">
                         <!-- User 1 -->
+                        @foreach($members as $member)
                         <li class="flex justify-between items-center p-3 hover:bg-gray-50 rounded-2xl transition-colors">
                             <div class="flex items-center space-x-3">
                                 <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-md">EM</div>
@@ -60,28 +61,7 @@
                             </div>
                             <span class="text-emerald-500 font-bold text-sm">+150 €</span>
                         </li>
-                        <!-- User 2 -->
-                         <li class="flex justify-between items-center p-3 hover:bg-gray-50 rounded-2xl transition-colors">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-500 flex items-center justify-center text-white font-bold shadow-md">AL</div>
-                                <div>
-                                    <p class="text-sm font-bold text-slate-800">Alex</p>
-                                    <p class="text-xs text-slate-400">Membre</p>
-                                </div>
-                            </div>
-                            <span class="text-rose-500 font-bold text-sm">-50 €</span>
-                        </li>
-                        <!-- User 3 -->
-                         <li class="flex justify-between items-center p-3 hover:bg-gray-50 rounded-2xl transition-colors">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-white font-bold shadow-md">SO</div>
-                                <div>
-                                    <p class="text-sm font-bold text-slate-800">Sophie</p>
-                                    <p class="text-xs text-slate-400">Membre</p>
-                                </div>
-                            </div>
-                            <span class="text-rose-500 font-bold text-sm">-100 €</span>
-                        </li>
+                        @endforeach
                     </ul>
                 </div>
 

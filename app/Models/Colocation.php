@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Expense;
 use App\Models\Category;
+use App\Models\User;
 
 class Colocation extends Model
 {
@@ -23,5 +24,8 @@ class Colocation extends Model
     }
     public function categories(){
         return $this->hasMany(Category::class);
+    }
+    public function owner(){
+        return $this->belongsTo(User::class , 'owner_id');
     }
 }

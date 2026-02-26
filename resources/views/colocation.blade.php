@@ -53,10 +53,10 @@
                         @foreach($colocation->users as $member)
                         <li class="flex justify-between items-center p-3 hover:bg-gray-50 rounded-2xl transition-colors">
                             <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-md">EM</div>
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-md">{{ $member->name[0] }}</div>
                                 <div>
-                                    <p class="text-sm font-bold text-slate-800">Emad</p>
-                                    <p class="text-xs text-slate-400">Admin</p>
+                                    <p class="text-sm font-bold text-slate-800">{{ $member->name}}</p>
+                                    <p class="text-xs text-slate-400">{{ $colocation->owner ? 'owner' : 'member'}}</p>
                                 </div>
                             </div>
                             <span class="text-emerald-500 font-bold text-sm">+150 €</span>

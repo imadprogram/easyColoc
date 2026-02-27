@@ -63,7 +63,9 @@ class ColocationController extends Controller
             return view('no_colocation');
         }
 
-        return view('colocation', compact('colocation'));
+        $settlements = \App\Models\Settlement::where('colocation_id', $colocation->id)->where('is_paid', false)->with(['debtor', 'creditor'])->get();
+
+        return view('colocation', compact('colocation', 'settlements'));
     }
 
     

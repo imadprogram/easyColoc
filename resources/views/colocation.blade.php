@@ -52,10 +52,10 @@
         @endif
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
             
             <!-- Left Column: Members & Quick Stats -->
-            <div class="lg:col-span-1 space-y-8">
+            <div class="xl:col-span-3 space-y-8">
                 
                 <!-- Members Card -->
                 <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 relative overflow-scroll [scrollbar-width:none] max-h-80">
@@ -88,14 +88,17 @@
                     <p class="text-slate-400 text-sm font-medium mb-1 uppercase tracking-wider">Total du mois</p>
                     <h3 class="text-4xl font-black mb-6"> {{ $colocation->expenses->sum('amount') }} €</h3>
                     
-                    <button class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-indigo-500/30">
-                        Équilibrer les comptes
-                    </button>
+                    <form action="{{ route('settlement.calculate') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-indigo-500/30">
+                            Équilibrer les comptes
+                        </button>
+                    </form>
                 </div>
             </div>
 
-            <!-- Right Column: Recent Expenses -->
-            <div class="lg:col-span-2 space-y-6 max-h-[38rem]">
+            <!-- Middle Column: Recent Expenses -->
+            <div class="xl:col-span-5 space-y-6 max-h-[38rem]">
                  <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 h-full overflow-scroll [scrollbar-width:none]">
                     <div class="flex justify-between items-center mb-8">
                         <h2 class="text-xl font-bold text-slate-800">Dépenses de la colocation</h2>
@@ -108,23 +111,23 @@
                     <div class="space-y-4">
                         <!-- Expense Item -->
                         @forelse($colocation->expenses as $expense)
-                        <div class="group flex items-center justify-between p-5 border border-gray-50 hover:border-indigo-100 hover:bg-slate-50/50 rounded-2xl transition-all">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center">
+                        <div class="group flex items-center justify-between p-4 border border-gray-50 hover:border-indigo-100 hover:bg-slate-50/50 rounded-2xl transition-all gap-4">
+                            <div class="flex items-center gap-3 overflow-hidden">
+                                <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center shrink-0">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                 </div>
-                                <div>
-                                    <p class="font-bold text-slate-800 text-base">Courses Carrefour</p>
-                                    <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                                <div class="truncate">
+                                    <p class="font-bold text-slate-800 text-sm xl:text-base truncate">Courses Carrefour</p>
+                                    <div class="flex flex-wrap items-center gap-1.5 text-[10px] xl:text-xs text-slate-500 font-medium">
                                         <span>Aujourd'hui</span>
                                         <span class="w-1 h-1 rounded-full bg-gray-300"></span>
                                         <span>Payé par <span class="font-bold text-indigo-600"> {{ $expense->user->name}} </span></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-right">
-                                <p class="font-black text-slate-800 text-lg">{{ $expense->amount }} €</p>
-                                <p class="text-xs text-slate-400 font-medium line-through group-hover:block">Nourriture</p>
+                            <div class="text-right whitespace-nowrap shrink-0">
+                                <p class="font-black text-slate-800 text-base xl:text-lg">{{ number_format($expense->amount, 2) }} €</p>
+                                <p class="text-[10px] xl:text-xs text-slate-400 font-medium hidden group-hover:block">Nourriture</p>
                             </div>
                         </div>
                         @empty
@@ -138,6 +141,49 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+            <!-- Right Column: Settlements -->
+            <div class="xl:col-span-4 space-y-6 max-h-[38rem]">
+                <div class="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 h-full overflow-scroll [scrollbar-width:none]">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-xl font-bold text-slate-800">Règlements</h2>
+                        <span class="bg-emerald-50 text-emerald-600 font-bold px-3 py-1 rounded-full text-xs">A régler</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        @forelse($settlements as $settlement)
+                        <div class="flex flex-col gap-3 p-4 border border-gray-50 bg-slate-50/50 hover:bg-slate-100 transition-colors rounded-2xl">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center font-bold text-xs shadow-sm">
+                                        {{ substr($settlement->debtor->name, 0, 1) }}
+                                    </div>
+                                    <span class="text-sm font-bold text-slate-700">doit à</span>
+                                    <div class="w-8 h-8 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-bold text-xs shadow-sm">
+                                        {{ substr($settlement->creditor->name, 0, 1) }}
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-black text-slate-800">{{ $settlement->amount }} €</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-1">
+                                <p class="text-[10px] text-slate-400 font-medium">{{ $settlement->debtor->name }} ➔ {{ $settlement->creditor->name }}</p>
+                            </div>
+                        </div>
+                        @empty
+                        <div class="text-center py-10">
+                            <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <p class="text-slate-500 font-bold text-sm">Tous les comptes sont équilibrés !</p>
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 

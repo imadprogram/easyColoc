@@ -40,11 +40,12 @@ class ColocationController extends Controller
         $colocation = Colocation::create([
             'name' => $request->name,
             'owner_id' => auth()->user()->id,
-            'invite_token' => Str::random(10),
+            'invite_token' => Str::random(10)
         ]);
 
         $user = auth()->user();
         $user->colocation_id = $colocation->id;
+        $user->joined_at = now();
         $user->save();
 
 
@@ -85,6 +86,7 @@ class ColocationController extends Controller
             }
 
             $user->colocation_id = $colocation->id;
+            $user->joined_at = now();
             $user->save();
 
             return redirect()->route('colocation')->with('success', 'Vous avez rejoint la colocation avec succès !');

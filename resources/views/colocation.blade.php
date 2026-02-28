@@ -164,8 +164,17 @@
                                         {{ substr($settlement->creditor->name, 0, 1) }}
                                     </div>
                                 </div>
-                                <div class="text-right">
+                                <div class="text-right flex flex-col items-end gap-2">
                                     <p class="font-black text-slate-800">{{ $settlement->amount }} €</p>
+                                    @if(auth()->id() === $settlement->debtor_id)
+                                    <form action="{{ route('settlement.paid', $settlement) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1 rounded-lg font-bold text-[10px] transition-colors">
+                                            Régler
+                                        </button>
+                                    </form>
+                                    @endif
                                 </div>
                             </div>
                             <div class="flex items-center justify-between mt-1">

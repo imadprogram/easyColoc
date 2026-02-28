@@ -21,6 +21,7 @@ Route::get('/colocation' ,[ColocationController::class , 'show'])->name('colocat
 Route::post('/expense' , [ExpenseController::class , 'store'])->name('expense.store');
 Route::post('/category' , [CategoryController::class , 'store'])->name('category.store');
 Route::post('/calculate' , [\App\Http\Controllers\SettlementController::class , 'calculate'])->name('settlement.calculate');
+Route::patch('/settlement/{settlement}/paid' , [\App\Http\Controllers\SettlementController::class , 'markAsPaid'])->name('settlement.paid');
 
 Route::get('/colocation/invite/{token}' , [ColocationController::class , 'accept'])->name('invite');
 

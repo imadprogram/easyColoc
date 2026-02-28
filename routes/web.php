@@ -11,9 +11,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/ban/{user}', [\App\Http\Controllers\DashboardController::class, 'ban'])->middleware(['auth'])->name('ban');
 
 Route::post('/newColoc' , [ColocationController::class , 'store'])->name('newColoc');
 Route::get('/colocation' ,[ColocationController::class , 'show'])->name('colocation');

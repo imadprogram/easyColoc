@@ -24,7 +24,8 @@ class User extends Authenticatable
         'email',
         'password',
         'is_global_admin',
-        'joined_at'
+        'joined_at',
+        'banned_at'
     ];
 
     /**

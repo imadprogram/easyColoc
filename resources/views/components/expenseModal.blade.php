@@ -33,6 +33,12 @@
         <form action="{{ route('expense.store') }}" method="Post" class="space-y-6">
             @csrf
             
+            <!-- Title Input -->
+            <div>
+                <label class="block text-sm font-bold text-slate-700 mb-2">Titre de la dépense</label>
+                <input required type="text" name="title" placeholder="Ex: Courses Carrefour" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none font-medium text-slate-800 shadow-sm sm:text-sm">
+            </div>
+
             <!-- Amount Input -->
             <div>
                 <label class="block text-sm font-bold text-slate-700 mb-2">Montant (€)</label>

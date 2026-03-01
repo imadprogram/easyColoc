@@ -22,7 +22,12 @@ Route::post('/category' , [CategoryController::class , 'store'])->name('category
 Route::post('/calculate' , [\App\Http\Controllers\SettlementController::class , 'calculate'])->name('settlement.calculate');
 Route::patch('/settlement/{settlement}/paid' , [\App\Http\Controllers\SettlementController::class , 'markAsPaid'])->name('settlement.paid');
 
-Route::get('/colocation/invite/{token}' , [ColocationController::class , 'accept'])->name('invite');
+Route::get('/colocation/invite/{token}' , [ColocationController::class , 'showInvite'])->name('invite');
+Route::post('/colocation/invite/{token}/accept' , [ColocationController::class , 'accept'])->name('invite.accept');
+Route::post('/colocation/decline' , [ColocationController::class , 'decline'])->name('colocation.decline');
+Route::post('/colocation/leave' , [ColocationController::class , 'leave'])->name('colocation.leave');
+Route::post('/colocation/kick/{member}' , [ColocationController::class , 'kick'])->name('colocation.kick');
+Route::post('/colocation/cancel' , [ColocationController::class , 'cancel'])->name('colocation.cancel');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

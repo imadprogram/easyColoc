@@ -30,6 +30,7 @@ class ExpenseController extends Controller
     public function store(StoreExpenseRequest $request)
     {
         Expense::create([
+            'title' => $request->title,
             'amount' => $request->amount,
             'category_id' => $request->category_id,
             'user_id' => auth()->id(),

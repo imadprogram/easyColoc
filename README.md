@@ -1,59 +1,82 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏡 EasyColoc
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**EasyColoc** est une application web moderne conçue pour simplifier la vie en communauté. Fini les disputes sur "qui doit quoi à qui", EasyColoc gère automatiquement le partage des dépenses et l'équilibre des comptes de votre colocation, tout en offrant une interface premium et intuitive.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Fonctionnalités Principales
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+*   **📊 Tableau de Bord Premium**: Une interface utilisateur moderne et réactive (Tailwind CSS & Alpine.js) pour visualiser en un clin d'œil la santé financière de la colocation.
+*   **💸 Suivi des Dépenses Avancé**:
+    *   Ajout de dépenses avec titre, montant et catégorie personnalisable.
+    *   Filtrage des dépenses par mois.
+    *   Visualisation des statistiques de dépenses par catégorie.
+*   **⚖️ Calcul Automatique des Dettes (Settlements)**: L'algorithme d'EasyColoc calcule automatiquement qui doit rembourser qui, de la manière la plus optimisée possible, afin que les comptes soient toujours équilibrés entre les membres actifs lors de la dépense.
+*   **👥 Gestion des Membres**:
+    *   **Invitations Sécurisées**: Invitez vos colocataires via un lien sécurisé. Les invités doivent accepter ou décliner l'invitation.
+    *   **Départs Volontaires**: Un membre peut quitter la colocation de lui-même.
+    *   **Gestion par l'Owner**: L'hôte (Owner) peut retirer (kick) un membre.
+    *   **Fermeture**: L'hôte peut annuler/fermer la colocation.
+*   **⭐ Système de Réputation**: Responsabilisation des utilisateurs !
+    *   Quitter ou annuler une colocation **les comptes à jour** donne un bonus de **+1**.
+    *   Quitter avec **des dettes impayées** entraîne un malus de **-1**. En cas de "Kick", la dette est transférée à l'Owner pour ne pas léser la communauté.
+*   **👨‍💼 Administration Globale**:
+    *   Le premier utilisateur inscrit devient automatiquement l'Admin Global.
+    *   Vue d'ensemble sur les statistiques globales de la plateforme.
+    *   Possibilité de **bannir** des utilisateurs malveillants. Les utilisateurs bannis sont automatiquement déconnectés et exclus de l'application.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🛠️ Stack Technique
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+*   **Backend**: Laravel 11.x (PHP 8.2+)
+*   **Frontend**: Blade, Tailwind CSS, Alpine.js
+*   **Base de données**: MySQL / PostgreSQL compatibles
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🚀 Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1.  **Cloner le dépôt :**
+    ```bash
+    git clone https://github.com/votre-nom/easycoloc.git
+    cd easycoloc
+    ```
 
-### Premium Partners
+2.  **Installer les dépendances PHP :**
+    ```bash
+    composer install
+    ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+3.  **Installer les dépendances Node :**
+    ```bash
+    npm install
+    npm run build
+    ```
 
-## Contributing
+4.  **Configuration de l'environnement :**
+    *   Copier `.env.example` vers `.env`
+    *   Configurer les identifiants de base de données dans `.env`
+    *   Générer la clé d'application :
+        ```bash
+        php artisan key:generate
+        ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5.  **Migrations et Seeders :**
+    Exécutez les migrations (les seeders peuvent générer des utilisateurs et catégories de test) :
+    ```bash
+    php artisan migrate
+    ```
 
-## Code of Conduct
+6.  **Démarrer le serveur local :**
+    ```bash
+    php artisan serve
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+L'application sera accessible sur `http://localhost:8000`.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🛡️ Fonctionnement du Système de Dettes
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+EasyColoc ne divise pas aveuglément les factures par le nombre total de membres. Le système vérifie **qui était présent dans la colocation au moment précis de l'achat** (basé sur les dates d'`inscription`/`départ`). Cela garantit une équité totale, notamment lorsqu'un colocataire arrive en milieu de mois.

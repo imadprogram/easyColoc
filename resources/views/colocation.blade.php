@@ -86,12 +86,12 @@
             
             <div class="flex items-center gap-3">
                 @if($colocation->owner_id === auth()->user()->id)
-                <button @click="$dispatch('open-category-modal')" class="bg-white hover:bg-slate-50 text-slate-700 px-6 py-3 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-sm border border-slate-200">
+                <button @click="isCategoryModalOpen = true" class="bg-white hover:bg-slate-50 text-slate-700 px-6 py-3 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-sm border border-slate-200">
                     <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
                     Nouvelle Catégorie
                 </button>
                 @endif
-                <button @click="$dispatch('open-expense-modal')" class="bg-[#5649e7] hover:bg-[#4338ca] text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-lg shadow-indigo-500/25">
+                <button @click="isExpenseModalOpen = true" class="bg-[#5649e7] hover:bg-[#4338ca] text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-lg shadow-indigo-500/25">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                     Ajouter une dépense
                 </button>
@@ -287,14 +287,9 @@
         </div>
     </section>
 
-
-</div>
-@endsection
-
-@push('modals')
-<!-- Expense Modal -->
-<div x-data="{ open: false }" @open-expense-modal.window="open = true">
-    <div x-show="open" 
+    <!-- Modals are now triggered via window events to work around overflow-hidden -->
+    <!-- Expense Modal -->
+    <div x-show="isExpenseModalOpen" 
          class="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm flex items-center justify-center"
          style="display: none;" 
          x-transition:enter="transition ease-out duration-300"
@@ -303,8 +298,8 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
-        <div @click.away="open = false" 
-             x-show="open" 
+        <div @click.away="isExpenseModalOpen = false" 
+             x-show="isExpenseModalOpen" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 translate-y-4 scale-95"
              x-transition:enter-end="opacity-100 translate-y-0 scale-100"
@@ -317,7 +312,7 @@
                     <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                     Nouvelle Dépense
                 </h3>
-                <button @click="open = false" class="text-slate-400 hover:text-slate-600">
+                <button @click="isExpenseModalOpen = false" class="text-slate-400 hover:text-slate-600">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
@@ -344,17 +339,15 @@
                     </select>
                 </div>
                 <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-100">
-                    <button type="button" @click="open = false" class="px-5 py-2.5 text-slate-500 font-bold hover:text-slate-700 transition-colors">Annuler</button>
+                    <button type="button" @click="isExpenseModalOpen = false" class="px-5 py-2.5 text-slate-500 font-bold hover:text-slate-700 transition-colors">Annuler</button>
                     <button type="submit" class="bg-[#5649e7] hover:bg-[#4338ca] text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-md shadow-[#5649e7]/30">Ajouter la dépense</button>
                 </div>
             </form>
         </div>
     </div>
-</div>
 
-<!-- Category Modal -->
-<div x-data="{ open: false }" @open-category-modal.window="open = true">
-    <div x-show="open" 
+    <!-- Category Modal -->
+    <div x-show="isCategoryModalOpen" 
          class="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm flex items-center justify-center"
          style="display: none;" 
          x-transition:enter="transition ease-out duration-300"
@@ -363,8 +356,8 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
-        <div @click.away="open = false" 
-             x-show="open" 
+        <div @click.away="isCategoryModalOpen = false" 
+             x-show="isCategoryModalOpen" 
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 translate-y-4 scale-95"
              x-transition:enter-end="opacity-100 translate-y-0 scale-100"
@@ -377,7 +370,7 @@
                     <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
                     Nouvelle Catégorie
                 </h3>
-                <button @click="open = false" class="text-slate-400 hover:text-slate-600">
+                <button @click="isCategoryModalOpen = false" class="text-slate-400 hover:text-slate-600">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
@@ -388,11 +381,11 @@
                     <input required type="text" placeholder="Ex: Courses, Internet, Loyer..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gray-800 focus:ring-2 focus:ring-gray-200 transition-all outline-none font-medium text-slate-800" name="name">
                 </div>
                 <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-100">
-                    <button type="button" @click="open = false" class="px-5 py-2.5 text-slate-500 font-bold hover:text-slate-700 transition-colors">Annuler</button>
+                    <button type="button" @click="isCategoryModalOpen = false" class="px-5 py-2.5 text-slate-500 font-bold hover:text-slate-700 transition-colors">Annuler</button>
                     <button type="submit" class="bg-gray-800 hover:bg-black text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-md">Ajouter</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-@endpush
+@endsection

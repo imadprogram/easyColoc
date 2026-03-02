@@ -30,7 +30,7 @@
             </button>
         </div>
 
-        <form action="{{ route('category.store') ?? '#' }}" method="Post" class="space-y-6">
+        <form action="{{ route('category.store') ?? '#' }}" method="POST" class="space-y-6">
             @csrf
             
             <!-- Category Name Input -->

@@ -1,7 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-<div x-data="{ isExpenseModalOpen: false, isCategoryModalOpen: false }" class="flex flex-col h-full bg-[#f0f2f5]">
+<div x-data="{ isExpenseModalOpen: false, isCategoryModalOpen: false }" class="flex flex-col h-full bg-[#f0f2f5] relative">
+    <!-- Validation Errors & Flash Messages -->
+    <div class="px-8 pt-6 w-full max-w-[1600px] mx-auto space-y-4 z-10 relative">
+        @if ($errors->any())
+            <div class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-xl shadow-sm">
+                <div class="flex">
+                    <div class="flex-shrink-0"><svg class="h-5 w-5 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-rose-800">Please correct these errors:</h3>
+                        <div class="mt-2 text-sm text-rose-700">
+                            <ul class="list-disc pl-5 space-y-1">
+                                @foreach ($errors->all() as $error) <li>{{ $error }}</li> @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        @if(session('success'))
+            <div class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-xl shadow-sm flex items-center">
+                <svg class="w-5 h-5 text-emerald-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <span class="text-emerald-800 font-bold text-sm">{{ session('success') }}</span>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-xl shadow-sm flex items-center">
+                <svg class="w-5 h-5 text-rose-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <span class="text-rose-800 font-bold text-sm">{{ session('error') }}</span>
+            </div>
+        @endif
+    </div>
     <!-- Header -->
     <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-10 shrink-0">
         <div class="flex items-center space-x-6">
@@ -54,12 +86,12 @@
             
             <div class="flex items-center gap-3">
                 @if($colocation->owner_id === auth()->user()->id)
-                <button @click="isCategoryModalOpen = true" class="bg-white hover:bg-slate-50 text-slate-700 px-6 py-3 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-sm border border-slate-200">
+                <button @click="$dispatch('open-category-modal')" class="bg-white hover:bg-slate-50 text-slate-700 px-6 py-3 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-sm border border-slate-200">
                     <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
                     Nouvelle Catégorie
                 </button>
                 @endif
-                <button @click="isExpenseModalOpen = true" class="bg-[#5649e7] hover:bg-[#4338ca] text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-lg shadow-indigo-500/25">
+                <button @click="$dispatch('open-expense-modal')" class="bg-[#5649e7] hover:bg-[#4338ca] text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-3 transition-all shadow-lg shadow-indigo-500/25">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                     Ajouter une dépense
                 </button>
@@ -255,8 +287,112 @@
         </div>
     </section>
 
-    <!-- Modals -->
-    @include('components.expenseModal')
-    @include('components.categoryModal')
+
 </div>
 @endsection
+
+@push('modals')
+<!-- Expense Modal -->
+<div x-data="{ open: false }" @open-expense-modal.window="open = true">
+    <div x-show="open" 
+         class="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm flex items-center justify-center"
+         style="display: none;" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <div @click.away="open = false" 
+             x-show="open" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-4 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 translate-y-4 scale-95"
+             class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    Nouvelle Dépense
+                </h3>
+                <button @click="open = false" class="text-slate-400 hover:text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <form action="{{ route('expense.store') }}" method="POST" class="space-y-6">
+                @csrf
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Titre de la dépense</label>
+                    <input required type="text" name="title" placeholder="Ex: Courses Carrefour" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none font-medium text-slate-800 shadow-sm sm:text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Montant (€)</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">€</span>
+                        <input required type="number" step="0.01" min="1" placeholder="0.00" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none text-lg font-bold text-slate-800" name="amount">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Catégorie</label>
+                    <select required name="category_id" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none bg-white font-medium text-slate-700">
+                        <option value="" disabled selected>Sélectionner une catégorie...</option>
+                        @foreach ($colocation->categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-100">
+                    <button type="button" @click="open = false" class="px-5 py-2.5 text-slate-500 font-bold hover:text-slate-700 transition-colors">Annuler</button>
+                    <button type="submit" class="bg-[#5649e7] hover:bg-[#4338ca] text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-md shadow-[#5649e7]/30">Ajouter la dépense</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Category Modal -->
+<div x-data="{ open: false }" @open-category-modal.window="open = true">
+    <div x-show="open" 
+         class="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm flex items-center justify-center"
+         style="display: none;" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <div @click.away="open = false" 
+             x-show="open" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-4 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+             x-transition:leave-end="opacity-0 translate-y-4 scale-95"
+             class="bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+                    Nouvelle Catégorie
+                </h3>
+                <button @click="open = false" class="text-slate-400 hover:text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <form action="{{ route('category.store') }}" method="POST" class="space-y-6">
+                @csrf
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Nom de la catégorie</label>
+                    <input required type="text" placeholder="Ex: Courses, Internet, Loyer..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-gray-800 focus:ring-2 focus:ring-gray-200 transition-all outline-none font-medium text-slate-800" name="name">
+                </div>
+                <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-100">
+                    <button type="button" @click="open = false" class="px-5 py-2.5 text-slate-500 font-bold hover:text-slate-700 transition-colors">Annuler</button>
+                    <button type="submit" class="bg-gray-800 hover:bg-black text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-md">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endpush

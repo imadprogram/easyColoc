@@ -30,7 +30,7 @@
             </button>
         </div>
 
-        <form action="{{ route('expense.store') }}" method="Post" class="space-y-6">
+        <form action="{{ route('expense.store') }}" method="POST" class="space-y-6">
             @csrf
             
             <!-- Title Input -->

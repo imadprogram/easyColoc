@@ -27,5 +27,8 @@
                 </main>
             </div>
         </div>
+
+        <!-- Modals rendered at body level to escape overflow-hidden -->
+        @stack('modals')
     </body>
 </html>
